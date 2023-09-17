@@ -203,7 +203,7 @@ function CombinedSection({ updateContent }) {
     };
 
     const renderButtonContent = () => {
-        switch (executionstatus) {
+        switch (executionStatus) {
             case 'idle':
                 return 'Execute';
             case 'execution':

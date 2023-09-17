@@ -47,7 +47,7 @@ const ChatContainer = ({ updateLeftSectionContent }) => {
                 updateLeftSectionContent("processpage");
             } else if (
                 server_response.includes("根据需求查找到以下匹配的解决方案，请在左侧页面继续查看以及操作") ||
-                server_response, includes("Please Continue To View And Operate On The Left Page To Find The Matching Solutions According To The Requirements")
+                server_response.includes("Please Continue To View And Operate On The Left Page To Find The Matching Solutions According To The Requirements")
             ) {
                 // 使用回调函数来更新左侧2／3的内容
                 updateLeftSectionContent("suggestpage", input);

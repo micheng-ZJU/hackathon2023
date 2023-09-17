@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import '../ProcessPage.css'
 import CombinedSection from './CombinedSection';
 import CombinedSection_Python from './CombinedSection_Python';
 import CombinedSection_Alteryx from './CombinedSection_Alteryx';

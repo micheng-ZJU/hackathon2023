@@ -20,8 +20,8 @@ const MessageList = ({ messages, addMessage }) => {
         console.log("Text type:", typeof text);
         const urlRegex = /(https?:\/\/[^\s]+)/g;
         const formattedText = text.replace(/(\.|。)/g, (match) => match + '<br />');
-        const textwithLinks = formattedText.replace(urlRegex, '<a href="$&" target="_blank">$&</a>');
-        return { _html: textWithLinks };
+        const textWithLinks = formattedText.replace(urlRegex, '<a href="$&" target="_blank">$&</a>');
+        return { __html: textWithLinks };
     };
 
 
@@ -41,7 +41,7 @@ const MessageList = ({ messages, addMessage }) => {
                 </div>
             );
         } else {
-            const formattedText = text.replace(/(\.lo)/g, (match) = match + '<br/>');
+            const formattedText = text.replace(/(\.|。)/g, (match) => match + '<br/>');
             return <div className="message-text">{formattedText}</div>;
         }
     };
@@ -112,7 +112,7 @@ const MessageList = ({ messages, addMessage }) => {
                             {message.imageUrls.map((imageUrl, imgIndex) => (
                                 <img
                                     key={imgIndex}
-                                    src={imageUr1}
+                                    src={imageUrl}
                                     alt={`Image ${imgIndex + 1}`}
                                     onClick={() => handleImageClick(predefinedInputs[imgIndex])}
                                     style={{ cursor: 'pointer' }}
@@ -124,7 +124,6 @@ const MessageList = ({ messages, addMessage }) => {
                         <div>
                             <button className="styled-button" onClick={() => handleYes(message.history, index)} disabled={message.buttonsDisabled}>Yes</button>
                             <button className="styled-button" onClick={() => handleNo(message.history, index)} disabled={message.noButtonsDisabled}>No</button>
-
                         </div>
                     )}
                 </div>

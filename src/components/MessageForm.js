@@ -7,14 +7,15 @@ const MessageForm = ({ addMessage, input, setInput, handleInputChange }) => {
     const handleFormSubmit = async (event) => {
         event.preventDefault();
         if (!input) return;
+
         setIsLoading(true);
         addMessage(input, true);
         setInput("");
-
         const apiUrl = "http://127.0.0.1:5000";// Replace with your API key
         try {
             const response = await axios.post(apiUrl, { query: input });
             const botMessage = response.data.result;
+            console.log("botMessage:", botMessage);
             const isImage = response.data.isImage;
             const imageUrls = response.data.imageUrls;
             const history = response.data.history;
