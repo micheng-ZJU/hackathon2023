@@ -1,0 +1,129 @@
+.combined-section {
+    display: flex;
+    flex-direction: row;
+    background-color: white;
+    font-family: Calibri, sans-serif;
+    width: 100%;
+    overflow-y: scroll;
+    flex: 2;
+}
+
+.combined-section>div {
+    text-align: center;
+}
+
+.combined-section>div>p {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.combined-section>div>button {
+    font-size: 16px;
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.combined-section>div>button:hover {
+    background-color: #0056b3;
+}
+
+.combined-section>div>button.execute-button {
+    background-color: #4caf50;
+}
+
+.combined-section>div>button.execute-button:hover {
+    background-color: #45a049;
+}
+
+.process-sections {
+    display: flex;
+    flex-direction: column;
+    padding-top: 10px;
+    align-items: center;
+}
+
+.process-subsection {
+    display: flex;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    height: 200px;
+    width: 100%;
+    margin-bottom: 10px;
+    background-color: aliceblue;
+}
+
+
+.process-name,
+.process-description,
+.process-operation {
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.process-name {
+    font-weight: bold;
+    width: 25%;
+    text-align: center;
+    justify-content: center;
+    padding: 4px;
+}
+
+.process-description {
+    width: 60%;
+    text-align: left;
+    justify-content: center;
+    padding: 6px 10px 6px 6px;
+}
+
+.process-operation {
+    justify-content: center;
+}
+
+.process-button {
+    margin: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+}
+
+.license-middle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.execution-section {
+    display: inline-block;
+    flex-wrap: wrap;
+    gap: 20px;
+    overflow-y: auto;
+    align-items: center;
+}
+
+.option-top {
+    height: 25%;
+}
+
+.option-bottom {
+    height: 25%;
+}
+
+.placeholder {
+    height: 100%;
+    background-color: aquamarine;
+}
+
+.option-middle {
+    height: 50%;
+}

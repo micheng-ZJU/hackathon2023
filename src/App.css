@@ -1,0 +1,286 @@
+/* App.css 
+
+ 整体页面样式*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body styles */
+body {
+    font-family: 'Calibri', sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+}
+
+/* Header styles */
+.header {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+}
+
+/*Main container styles */
+.App {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* Content container styles */
+.content {
+    display: flex;
+    flex: 1 1 auto;
+    overflow: hidden;
+    flex-direction: row;
+}
+
+/* Section styles */
+.section {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.section.left-section {
+    padding: Opx;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 2;
+}
+
+/* Right section styles */
+.section.right-section {
+    /* background-image: url('/images/robot.jpg'); */
+    background-size: cover;
+    position: relative;
+    flex: 1;
+}
+
+.email-input-container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.email-input-container input {
+    margin-bottom: 10px;
+    width: 200%;
+    font-family: 'Calibri', sans-serif;
+    font-size: medium;
+}
+
+.confirm-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-family: 'Calibri', sans-serif;
+    font-size: medium;
+}
+
+h3 {
+    margin-bottom: 10px;
+    font-family: 'Calibri', sans-serif;
+}
+
+select {
+    margin-top: 10px;
+    padding: 5px;
+    width: 80%;
+    font-family: 'Calibri', sans-serif;
+    border-radius: 5px;
+    background-color: white;
+}
+
+button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Calibri', sans-serif;
+    font-size: medium;
+}
+
+.button-with-space {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Calibri', sans-serif;
+    font-size: medium;
+    margin: 0 20px;
+}
+
+.robot-background {
+    background-color: rgba(255, 255, 255, 0.8);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.chat-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Calibri', sans-serif;
+    font-size: medium;
+}
+
+／＊聊天容器样式 */ .chat-container {
+    display: flex;
+    flex-direction: column;
+    width: 29rem;
+    height: 38rem;
+    overflow: hidden;
+}
+
+.message-list {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    font-family: 'Calibri', sans-serif;
+}
+
+.message {
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-family: 'Calibri', sans-serif;
+}
+
+.user {
+    background-color: #dff9fb;
+    align-self: flex-end;
+}
+
+.bot {
+    background-color: #f0f0f0;
+    align-self: flex-start;
+}
+
+／＊消息输入表单样式＊／ .message-form {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #f5f5f5;
+    font-family: 'Calibri', sans-serif;
+}
+
+.message-form input {
+    flex: 1;
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+    margin-right: 10px;
+    font-family: 'Calibri', sans-serif;
+    font-size: medium;
+}
+
+.message-formn button {
+    background-color: #2196f3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: 'Calibri', sans-serif;
+    font-size: medium;
+}
+
+.message-form button:hover {
+    background-color: #0d8ed6;
+}
+
+.image-container {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.image-container img {
+    max-width: 100px;
+    max-height: 100px;
+    margin-right: 30px;
+}
+
+.message-text {
+    /* Set appropriate styles for the message text container */
+    /* For example, you can use flexbox to ensure text wraps properly */
+    display: block;
+    flex-wrap: wrap;
+    font-family: 'Calibri', sans-serif;
+    font-size: medium;
+    text-align: left;
+    color: #333;
+}
+
+.object-text {
+    /* For example, you can use flexbox to ensure text wraps properly */
+    display: block;
+    flex-wrap: wrap;
+    font-family: 'Calibri', sans-serif;
+    font-size: medium;
+    text-align: left;
+}
+
+.styled-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: medium;
+    text-align: left;
+    font-family: 'Calibri', sans-serif;
+}
+
+.styled-button:hover {
+    background-color: #0056b3;
+}
+
+.styled-button[disabled] {
+    background-color: #ccc;
+    /* Change to gray color or any other disabled style */
+    cursor: not-allowed;
+    /* Change cursor to not-allowed */
+}
+
+.email-input-container {
+    margin: 20px;
+}
+
+.button-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

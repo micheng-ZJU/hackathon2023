@@ -1,0 +1,70 @@
+/* ProcessPage.css */
+
+/* Reset CSS for basic styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Define styles for the ProcessPage container */
+·process-page {
+    display: flex;
+    width: 100%; /*让整个页面占满宽度*/
+    height: 100%;
+    overflow: hidden;
+}
+
+.custom-section {
+    flex: 1;
+    opacity: 0;
+    /* height：100vh；让每个section占据整个视口高度*/
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    /* justify-content: center;*/
+    position: relative;
+    background-color: white;
+    transform: translateY(100px);
+    transition: all 0.3s linear;
+}
+
+.custom-section#section2 {
+    transition: all 0.5s linear;
+}
+
+.custom-section#section3 {
+    transition: all 0.7s linear;
+}
+
+.custom-section.show {
+    opacity: 1;
+    transform: translateY(0)
+}
+
+/* Add a separator line before each section */
+.custom-section:not(:first-child) ::before {
+    content: '';
+    width: 1px;
+    height: 100%;
+    background-color: #aaa;
+    position: absolute;
+    left: 0;
+}
+
+/* Add a semi-transparent background layer for the fading effect */
+.custom-section::after {
+    content: '';
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+/* Style for selected section */
+.custom-section#section2.move {
+    transform: translateX(-100%);
+    background-color: blue;
+}
