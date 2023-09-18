@@ -14,7 +14,7 @@ function App() {
     // 定义函数来更新左侧2／3的内容
     const updateLeftSectionContent = (content, text) => {
         if (content === "emailpage") {
-            setLeftSectionContent(<WorkflowPage />);
+            setLeftSectionContent(<WorkflowPage text={text} />);
         } else if (content === "processpage") {
             setLeftSectionContent(<ProcessPage />);
         } else if (content === "suggestpage") {

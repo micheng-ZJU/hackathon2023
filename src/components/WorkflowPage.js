@@ -76,11 +76,39 @@ const pieConfig = {
     radius: 120
 }
 
-const WorkflowPage = () => {
+const WorkflowPage = (props) => {
+    const { text } = props;
+    const [jsonData, setJsonData] = useState({});
     const [current, setCurrent] = useState(0)
     const [isRunning, setIsRunning] = useState(false)
     const [showModal, setShowModal] = useState(false)
     const [showReport, setShowReport] = useState(false)
+
+    useEffect(() => {
+        //发送请求到 get＿data
+        const encodedText = encodeURIComponent(text);
+        fetch(`http://127.0.0.1:5000/initial-workflow?text=${encodedText}`, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
+            })
+            .then(data => {
+                setJsonData(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // 可能还需要其他的错误处理逻辑
+            });
+    }, [text]);
+
+    console.log('jsonData', jsonData)
 
     const start = () => {
         setCurrent(0)
