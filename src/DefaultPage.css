@@ -1,10 +1,10 @@
 /* DefaultPage.css */
-／＊整体页面样式＊／ .default-page {
+.default-page {
     display: flex;
     height: 100%;
     align-items: center;
     justify-content: center;
-    /* background-image: url('/backgroud/hackthon resource.jpg'); */
+    background-image: url('/backgroud/hackathon resources.jpg');
     background-size: contain;
     background-position: center center;
     background-repeat: no-repeat;
@@ -25,7 +25,8 @@
 
 }
 
-／＊居中内容＊／ .centered-content {
+/* 居中内容 */ 
+.centered-content {
     text-align: center;
 }
 
