@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../CombinedSection.css';
 import { useSpring, animated, config } from 'react-spring';
-import style from './executionStyles'
+import styles from './executionStyles'
 
 function CombinedSection({ updateContent }) {
     const [showOptions, setShowOptions] = useState(false);
@@ -246,7 +246,7 @@ function CombinedSection({ updateContent }) {
         return (
             <div style={styles.container}>
                 {texts.map((text, index) => (
-                    <animated.div key={text.key} style={{ ...style.text, ...fadeText, display: currentTextIndex === index ? 'block' : 'none' }}>
+                    <animated.div key={text.key} style={{ ...styles.text, ...fadeText, display: currentTextIndex === index ? 'block' : 'none' }}>
                         {text.content}
                     </animated.div>
                 ))}

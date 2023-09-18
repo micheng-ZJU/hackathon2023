@@ -22,7 +22,6 @@ function ProcessPage() {
             backgroundSize: '66% auto',
         },
     ];
-    debugger;
 
     const [sections, setSections] = useState(initialSections);
     const [selectedSection, setSelectedSection] = useState(null);

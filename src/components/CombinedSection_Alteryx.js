@@ -152,7 +152,7 @@ function CombinedSection_Alteryx({ updateContent }) {
         fileInputRef.current.click();
     }
 
-    const renderProcesssections = () => {
+    const renderProcessSections = () => {
         return (
             <div className="process-sections">
                 {sections.map((process, index) => (
@@ -308,7 +308,7 @@ function CombinedSection_Alteryx({ updateContent }) {
 
     return (
         <div className="combined-section">
-            {tryrunChoice === null && renderProcesssections()}
+            {tryrunChoice === null && renderProcessSections()}
             {(userChoice === null && tryrunChoice != null) && renderLicenseSections()}
             {showOptions && ExecutionPage()}
             {showLicenseInfo && renderLicenseInfo()}

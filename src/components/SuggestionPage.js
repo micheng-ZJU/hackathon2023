@@ -69,6 +69,7 @@ const SuggestionPage = (props) => {
                         key={index} className="process-subsection"
                     >
                         <div className="process-name">{process.name}</div>
+                        <div className="process-description">{process.description}</div>
                         <div className='process-operation'>
                             <button className="process-button" onClick={() => handleTryRunClick()}>Try Run</button>
                         </div>
@@ -125,6 +126,7 @@ const SuggestionPage = (props) => {
         delay: 200,
         config: config.s1ow
     });
+
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentTextIndex((prev) => {

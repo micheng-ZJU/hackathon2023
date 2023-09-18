@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../CombinedSection.css';
 import { useSpring, animated, config } from 'react-spring';
-import style from './executionStyles'
+import styles from './executionStyles'
 
 function CombinedSection_Python({ updateContent }) {
     const [showOptions, setShowOptions] = useState(false);
@@ -73,6 +73,7 @@ function CombinedSection_Python({ updateContent }) {
         setShowOptions(true);
         setShowLicenseInfo(false);
         setUserChoice("yes");
+        const newContent = ExecutionPage();
         //更新内容为 option list
         updateContent(newContent);
     };
@@ -136,7 +137,7 @@ function CombinedSection_Python({ updateContent }) {
     };
 
     const renderButtonContent = () => {
-        switch (executionstatus) {
+        switch (executionStatus) {
             case 'idle':
                 return 'Execute';
             case 'execution':
@@ -177,7 +178,7 @@ function CombinedSection_Python({ updateContent }) {
         return (
             <div style={{ ...styles.container, backgroudColor: 'rgba(255, 222, 86, 0.7)' }}>
                 {texts.map((text, index) => (
-                    <animated.div key={text.key} style={{ ...style.text, ...fadeText, display: currentTextIndex === index ? 'block' : 'none' }}>
+                    <animated.div key={text.key} style={{ ...styles.text, ...fadeText, display: currentTextIndex === index ? 'block' : 'none' }}>
                         {text.content}
                     </animated.div>
                 ))}
