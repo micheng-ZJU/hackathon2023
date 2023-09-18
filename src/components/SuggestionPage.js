@@ -16,12 +16,12 @@ const SuggestionPage = (props) => {
     useEffect(() => {
         //发送请求到 get＿data
         fetch(`http://127.0.0.1:5000/suggest-solution?text=${text}`)
-            .then(response => tesponse.json())
+            .then(response => response.json())
             .then(data => {
                 // 更新数据状态
                 setData(data);
             })
-            .catch(error = console.error('Error:', error));
+            .catch(error => { console.error('Error:', error) });
     }, [text]);
 
 

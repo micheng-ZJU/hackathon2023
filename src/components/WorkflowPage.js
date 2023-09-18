@@ -96,7 +96,7 @@ const WorkflowPage = () => {
     }
 
     const generateChart = () => {
-        showReport(true)
+        setShowReport(true)
     }
 
     useEffect(() => {
@@ -113,7 +113,7 @@ const WorkflowPage = () => {
         if (current == stepProps.key && isRunning) {
             icon = <Spin indicator={LoadingOutlined} />
         } else if (current > stepProps.key) {
-            icon = <CheckcircleOutlined />
+            icon = <CheckCircleOutlined />
         }
         return {
             ...stepProps,
@@ -131,19 +131,19 @@ const WorkflowPage = () => {
         <p style={{ marginBottom: '30px' }}>Please click START button to run the job</p>
         <Steps direction='vertical' className='steps' current={current} size='medium' items={clonedStepItems} />
         <div>
-            <Button type='primary' onClick={Start} className='left-btn'>START</Button>
+            <Button type='primary' onClick={start} className='left-btn'>START</Button>
             {!isRunning && current == 3 ?
                 <Button onClick={generateChart} icon={<BarChartOutlined />}>Generate Report</Button> : null
             }
         </div>
-        <Modal title="Logon" width={340} open={showModal} onOk={logon}>
+        <Modal title="Logon" width={360} open={showModal} onOk={logon}>
             <div className='logon-form'>
                 <Row>
-                    <Col span={5} className='logon-label'>User ID</Col>
+                    <Col span={6} className='logon-label'>User ID</Col>
                     <Col span={15}><Input /></Col>
                 </Row>
                 <Row>
-                    <Col span={5} className='logon-label'>Password</Col>
+                    <Col span={6} className='logon-label'>Password</Col>
                     <Col span={15}><Input type='password' /></Col>
                 </Row>
             </div>

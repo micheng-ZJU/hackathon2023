@@ -127,8 +127,10 @@ function CombinedSection_Python({ updateContent }) {
                 </p>
                 <></>
                 <p>Do You Have The Role Already?</p>
-                <button style={{ marginRight: '20px' }} onClick={() => handleYesClick()}>Yes</button>
-                <button onClick={() => handleNoClick()}>No</button>
+                <div>
+                    <button style={{ marginRight: '20px' }} onClick={() => handleYesClick()}>Yes</button>
+                    <button onClick={() => handleNoClick()}>No</button>
+                </div>
             </div>
         )
     };

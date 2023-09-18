@@ -289,7 +289,7 @@ function CombinedSection_Alteryx({ updateContent }) {
 
     const renderLicenseInfo = () => {
         return (
-            <div>
+            <div className='license-middle'>
                 <p>
                     If you wish to apply for an Alteryx license, please reach out
                     to the Seals APAC team. We will guide you through the process
@@ -308,7 +308,7 @@ function CombinedSection_Alteryx({ updateContent }) {
 
     return (
         <div className="combined-section">
-            {tryrunChoice === null && renderProcessSections()}
+            {tryrunChoice === null && renderProcesssections()}
             {(userChoice === null && tryrunChoice != null) && renderLicenseSections()}
             {showOptions && ExecutionPage()}
             {showLicenseInfo && renderLicenseInfo()}

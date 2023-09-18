@@ -196,8 +196,10 @@ function CombinedSection({ updateContent }) {
                     An Attended license is for automations that require human interaction. It allows a human worker to collaborate with a robot to complete tasks together. Imagine it as having a helpful robot assistant alongside you.
                 </p>
                 <p>Do You Have License Already?</p>
-                <button style={{ marginRight: '20px' }} onClick={() => handleYesClick()}>Yes</button>
-                <button onClick={() => handleNoClick()}>No</button>
+                <div>
+                    <button style={{ marginRight: '20px' }} onClick={() => handleYesClick()}>Yes</button>
+                    <button onClick={() => handleNoClick()}>No</button>
+                </div>
             </div>
         )
     };
@@ -263,7 +265,7 @@ function CombinedSection({ updateContent }) {
 
     const renderLicenseInfo = () => {
         return (
-            <div>
+            <div className='license-middle'>
                 <p>
                     If users want to apply for UiPath license, firstly, you need to send the users info with Lan ID, Name, and busniess team to "APAC RDA CoE" so that we can add the users to the corresponding list.
                 </p>
