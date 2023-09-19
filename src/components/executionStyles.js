@@ -6,7 +6,7 @@ const styles = {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'rgba(250,70,22,0.5)',
+        backgroundColor: 'rgba(224,255,255,0.5)',
 
     },
     button: {

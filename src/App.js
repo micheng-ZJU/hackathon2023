@@ -33,7 +33,7 @@ function App() {
         <Router>
             <div className="App">
                 <header className="header">
-                    <h1>Seals APAC ChatBot APP</h1>
+                    <h1>DolphBot Waves</h1>
                 </header>
                 <div className="content">
                     <div className="section left-section">

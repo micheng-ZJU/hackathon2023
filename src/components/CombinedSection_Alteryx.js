@@ -257,7 +257,7 @@ function CombinedSection_Alteryx({ updateContent }) {
                         onClick={selectFiles}
                     >
 
-                        {dragging ? '释放以上传文件' : '拖放文件到这里或点击选择'}
+                        {dragging ? 'Release To Upload File' : 'Drag And Drop Files Here Or Click To Select'}
                         <input
                             ref={fileInputRef}
                             type="file"

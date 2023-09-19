@@ -69,8 +69,9 @@ const MessageList = ({ messages, addMessage }) => {
 
     const handleYes = async (history, index) => {
         // Disable only the clicked "Yes" button
+        const updatedMessages = [...messages];
         updatedMessages[index].buttonsDisabled = true;
-        await sendToBackend("FNGPT:" + history);
+        await sendToBackend("SSGPT:" + history);
     };
 
     const handleNo = async (history, index) => {
@@ -123,7 +124,6 @@ const MessageList = ({ messages, addMessage }) => {
                     {message.history && message.history.length > 0 && (
                         <div>
                             <button className="styled-button" onClick={() => handleYes(message.history, index)} disabled={message.buttonsDisabled}>Yes</button>
-                            <button className="styled-button" onClick={() => handleNo(message.history, index)} disabled={message.noButtonsDisabled}>No</button>
                         </div>
                     )}
                 </div>
