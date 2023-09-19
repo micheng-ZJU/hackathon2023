@@ -44,7 +44,7 @@ function App() {
                                 <Route path="/chat" component={DefaultPage} />
                                 <Route path="/emailpage" component={WorkflowPage} />
                                 <Route path="/processpage" component={ProcessPage} />
-                                ｛／＊其他路由和页面组件＊／｝
+                                {/* ｛／＊其他路由和页面组件＊／｝ */}
                             </Switch>
                         )}
                     </div>

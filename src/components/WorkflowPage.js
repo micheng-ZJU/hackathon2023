@@ -1,36 +1,45 @@
 import { useEffect, useState } from 'react'
 import { Button, Icon, Spin, Steps, Upload, Modal, Row, Col, Input } from 'antd'
-import { LoadingOutlined, UserOutlined, FileAddOutlined, RobotOutlined, CheckCircleOutlined, BarChartOutlined } from '@ant-design/icons'
+import { LoadingOutlined, UserOutlined, FileAddOutlined, RobotOutlined, CheckCircleOutlined, BarChartOutlined, EditOutlined, ReloadOutlined } from '@ant-design/icons'
 import { Line, HistogramConfig, Pie, PieConfig, Histogram } from '@ant-design/plots'
 import './WorkflowPage.less'
 
-const stepItems = [{
-    key: 0,
-    title: 'Upload Input File',
-    description: (<div>
-        <p>
-            Please select a file as input.
-        </p>
-        <div style={{ height: "60px", flexDirection: 'row' }}>
-            <Upload name='file' className='upload'><Button>Upload File</Button></Upload>
+const wfType = {
+    type: 'RDA',
+    title: 'Feed Asset Set up Form information from SharePoint to wso', 
+    // Alteryx: 'JPB Monthly SD Holding Report', 
+    // Python: 'FRS Currency Breakdown - FSDF', 
+    // Extract: ''
+}
 
-        </div>
-    </div>),
-    icon: <FileAddOutlined />
-},
-{
-    key: 1,
-    title: 'Authentication',
-    description: 'Please logon to the sytem with your credentials',
-    icon: (<UserOutlined />)
-},
-{
-    key: 2,
-    title: 'Process',
-    description: 'The automation is running',
-    icon: (<RobotOutlined />)
-},
+const stepItems = [{
+        key: 0,
+        title: 'Upload Input File',
+        description: (<div>
+            <p>
+                Please select a file as input.
+            </p>
+            <div style={{ height: "60px", flexDirection: 'row' }}>
+                <Upload name='file' className='upload'><Button>Upload File</Button></Upload>
+
+            </div>
+        </div>),
+        icon: <FileAddOutlined />
+    },
+    {
+        key: 1,
+        title: 'Authentication',
+        description: 'Please logon to the sytem with your credentials',
+        icon: (<UserOutlined />)
+    },
+    {
+        key: 2,
+        title: 'Process',
+        description: 'The automation is running',
+        icon: (<RobotOutlined />)
+    },
 ]
+
 
 const data = [
     { year: '1991', value: 3 },
@@ -78,11 +87,12 @@ const pieConfig = {
 
 const WorkflowPage = (props) => {
     const { text } = props;
-    const [jsonData, setJsonData] = useState({});
+    const [jsonData, setJsonData] = useState({title: ''});
     const [current, setCurrent] = useState(0)
     const [isRunning, setIsRunning] = useState(false)
     const [showModal, setShowModal] = useState(false)
     const [showReport, setShowReport] = useState(false)
+    const [showEdit, setShowEdit] = useState(false)
 
     useEffect(() => {
         //发送请求到 get＿data
@@ -155,8 +165,11 @@ const WorkflowPage = (props) => {
 
     return <div className='container'>
         <h2>Welcome to the Workflow</h2>
-        <p>We have generated a workflow for your job</p>
-        <p style={{ marginBottom: '30px' }}>Please click START button to run the job</p>
+        <h3 className='wf-title'>{jsonData.title}</h3>
+        <p>We have customized a workflow from your description.</p>
+        <p>If this is not the workflow you want: <Button icon={<EditOutlined />} onClick={setShowEdit}>Edit</Button></p>
+        <p style={{marginBottom: '20px'}}>Follow the steps below and click START button.</p>
+
         <Steps direction='vertical' className='steps' current={current} size='medium' items={clonedStepItems} />
         <div>
             <Button type='primary' onClick={start} className='left-btn'>START</Button>
@@ -176,12 +189,15 @@ const WorkflowPage = (props) => {
                 </Row>
             </div>
         </Modal>
-        <Modal title="Report" open={showReport} className='report' onOk={hideReport} cancelButtonProps={{ style: { display: 'none' } }} closable={false}>
+        <Modal title="Report" open={showReport} className='report' onOk={hideReport} onCancel={hideReport}>
             <div className='content'>
                 <Line {...lineConfig} className='left-chart' />
                 <Pie {...pieConfig} className='right-chart' />
 
             </div>
+        </Modal>
+        <Modal title="Re-arrange Workflow" open={showEdit} className='edit' onOk={() => {setShowEdit(false)}} onCancel={() => {setShowEdit(false)}}>
+            <textarea multiple={true} defaultValue={JSON.stringify(stepItems)} className='edit-text' />
         </Modal>
     </div>
 }
