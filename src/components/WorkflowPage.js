@@ -37,6 +37,56 @@ const commonStepItems = [
     },
 ]
 
+const resultData = [
+    {
+        "FUND": "SGF2",
+        "LOC": "CN",
+        "TRADE ID": "IBNBBHKX",
+        "SETTLE ACCT ID": "SPEC",
+        "CORY TYPE": "FI",
+        "STATUS": "PAI"
+    },
+    {
+        "FUND": "SGF2",
+        "LOC": "CN",
+        "TRADE ID": "IBNBBHKX",
+        "SETTLE ACCT ID": "SPEC",
+        "CORY TYPE": "CORP",
+        "STATUS": "PAI"
+    },
+    {
+        "FUND": "SGF3",
+        "LOC": "NZ",
+        "TRADE ID": "SIAODDKD",
+        "SETTLE ACCT ID": "LOAN",
+        "CORY TYPE": "FI",
+        "STATUS": "PAI"
+    },
+    {
+        "FUND": "SGF3",
+        "LOC": "AUS",
+        "TRADE ID": "SIAODDKD",
+        "SETTLE ACCT ID": "LOAN",
+        "CORY TYPE": "FI",
+        "STATUS": "PAI"
+    },
+    {
+        "FUND": "SGF5",
+        "LOC": "NZ",
+        "TRADE ID": "WDIWDFFF",
+        "SETTLE ACCT ID": "LOAN",
+        "CORY TYPE": "FI",
+        "STATUS": "OPEN"
+    },
+    {
+        "FUND": "SGF5",
+        "LOC": "NZ",
+        "TRADE ID": "WDIWDFFF",
+        "SETTLE ACCT ID": "LOAN",
+        "CORY TYPE": "FI",
+        "STATUS": "CAL"
+    }
+]
 
 const data = [
     { year: '1991', value: 3 },
@@ -66,21 +116,48 @@ const lineConfig = {
     },
 }
 
-const pieData = [
-    { item: 'Case 1', count: 40, percent: 0.4 },
-    { item: 'Case 2', count: 221, percent: 0.4 },
-    { item: 'Case 3', count: 17, percent: 0.17 },
-    { item: 'Case 4', count: 13, percent: 0.13 },
-    { item: 'Case 5', count: 9, percent: 0.09 },
-];
+// const pieData = [
+//     { item: 'Case 1', count: 40, percent: 0.4 },
+//     { item: 'Case 2', count: 221, percent: 0.4 },
+//     { item: 'Case 3', count: 17, percent: 0.17 },
+//     { item: 'Case 4', count: 13, percent: 0.13 },
+//     { item: 'Case 5', count: 9, percent: 0.09 },
+// ];
 
-const pieConfig = {
-    data: pieData,
-    angleField: 'percent',
-    colorField: 'item',
-    label: 'percent',
-    radius: 120
+
+const tmpCnt = {
+    'LOC': {},
+    'CORY TYPE': {},
+    'STATUS': {}
 }
+resultData.forEach(r => {
+    for (const key in r) {
+        if (!tmpCnt[key]) continue
+        if (!(r[key] in tmpCnt[key])) {
+            tmpCnt[key][r[key]] = {
+                item: r[key],
+                count: 1
+            }
+        } else {
+            tmpCnt[key][r[key]].count += 1
+        }
+    }
+    console.log(tmpCnt)
+})
+const pieData = []
+for (const name in tmpCnt) {
+    pieData.push({
+        title: name,
+        config: {
+            data: Object.values(tmpCnt[name]),
+            angleField: 'count',
+            colorField: 'item',
+            label: 'count',
+            radius: 120
+        }
+    })
+}
+
 
 const WorkflowPage = (props) => {
     const { text } = props;
@@ -212,9 +289,14 @@ const WorkflowPage = (props) => {
         </Modal>
         <Modal title="Report" open={showReport} className='report' onOk={hideReport} onCancel={hideReport}>
             <div className='content'>
-                <Line {...lineConfig} className='left-chart' />
-                <Pie {...pieConfig} className='right-chart' />
-
+                {/* <Line {...lineConfig} className='left-chart' /> */}
+                {pieData.map(data => {
+                    console.log(data)
+                    return <div style={{flex: 1}}>
+                        <p>{data.title}</p>
+                        <Pie {...data.config}  />
+                    </div>
+                })}
             </div>
         </Modal>
         <Modal title="Re-arrange Workflow" open={showEdit} className='edit' onOk={() => {setShowEdit(false)}} onCancel={() => {setShowEdit(false)}}>
