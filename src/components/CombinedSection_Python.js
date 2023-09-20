@@ -176,7 +176,7 @@ function CombinedSection_Python({ updateContent }) {
 
     const ExecutionPage = () => {
         return (
-            <div style={{ ...styles.container, backgroudColor: 'rgba(255, 222, 86, 0.7)' }}>
+            <div style={{ ...styles.container, backgroundColor: 'rgba(255, 222, 86, 0.7)' }}>
                 {texts.map((text, index) => (
                     <animated.div key={text.key} style={{ ...styles.text, ...fadeText, display: currentTextIndex === index ? 'block' : 'none' }}>
                         {text.content}

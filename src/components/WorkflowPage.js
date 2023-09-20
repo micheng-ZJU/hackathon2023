@@ -4,15 +4,12 @@ import { LoadingOutlined, UserOutlined, FileAddOutlined, RobotOutlined, CheckCir
 import { Line, HistogramConfig, Pie, PieConfig, Histogram } from '@ant-design/plots'
 import './WorkflowPage.less'
 
-const wfType = {
-    type: 'RDA',
-    title: 'Feed Asset Set up Form information from SharePoint to wso', 
-    // Alteryx: 'JPB Monthly SD Holding Report', 
-    // Python: 'FRS Currency Breakdown - FSDF', 
-    // Extract: ''
-}
 
-const stepItems = [{
+const workflowSequence = ['RDA', 'Alteryx', 'Python']
+
+
+const commonStepItems = [
+    {
         key: 0,
         title: 'Upload Input File',
         description: (<div>
@@ -90,7 +87,7 @@ const WorkflowPage = (props) => {
     const [jsonData, setJsonData] = useState({title: ''});
     const [current, setCurrent] = useState(0)
     const [isRunning, setIsRunning] = useState(false)
-    const [showModal, setShowModal] = useState(false)
+    const [showLogon, setShowLogon] = useState(false)
     const [showReport, setShowReport] = useState(false)
     const [showEdit, setShowEdit] = useState(false)
 
@@ -125,12 +122,12 @@ const WorkflowPage = (props) => {
         setIsRunning(true)
         setTimeout(() => {
             setCurrent(1)
-            setShowModal(true)
+            setShowLogon(true)
         }, 2000)
     }
     const logon = () => {
         setCurrent(2)
-        setShowModal(false)
+        setShowLogon(false)
     }
 
     const generateChart = () => {
@@ -138,13 +135,38 @@ const WorkflowPage = (props) => {
     }
 
     useEffect(() => {
-        if (!showModal && current == 2) {
+        if (!showLogon && current >= 2) {
             setTimeout(() => {
-                setCurrent(3)
-                setIsRunning(false)
-            }, 4000)
+                setCurrent(c => c+1)
+            }, 2500)
         }
-    }, [showModal])
+    }, [showLogon])
+
+    useEffect(() => {
+        if (current >= stepItems.length) {
+            setIsRunning(false)
+        } else if (current > 2) {
+            setTimeout(() => {
+                setCurrent(c => c + 1)
+            }, 2500)
+        }
+    }, [current])
+
+    const stepItems = [...commonStepItems]
+    if (Object.keys(jsonData).length !== 0) {
+        stepItems.pop()
+        workflowSequence.forEach(wf => {
+            if (jsonData[wf]) {
+                stepItems.push({
+                    key: stepItems.length,
+                    title: `${wf} Process`,
+                    description: jsonData[wf],
+                    icon: <RobotOutlined />
+                })
+            }
+        })
+        
+    }
 
     const clonedStepItems = stepItems.map(stepProps => {
         let icon = stepProps.icon
@@ -166,18 +188,17 @@ const WorkflowPage = (props) => {
     return <div className='container'>
         <h2>Welcome to the Workflow</h2>
         <h3 className='wf-title'>{jsonData.title}</h3>
-        <p>We have customized a workflow from your description.</p>
-        <p>If this is not the workflow you want: <Button icon={<EditOutlined />} onClick={setShowEdit}>Edit</Button></p>
+        <p>We have customized a workflow from your description. If this is not the workflow you want: <Button icon={<EditOutlined />} onClick={setShowEdit}>Edit the Workflow</Button></p>
         <p style={{marginBottom: '20px'}}>Follow the steps below and click START button.</p>
 
         <Steps direction='vertical' className='steps' current={current} size='medium' items={clonedStepItems} />
         <div>
             <Button type='primary' onClick={start} className='left-btn'>START</Button>
-            {!isRunning && current == 3 ?
+            {!isRunning && current == stepItems.length ?
                 <Button onClick={generateChart} icon={<BarChartOutlined />}>Generate Report</Button> : null
             }
         </div>
-        <Modal title="Logon" width={360} open={showModal} onOk={logon}>
+        <Modal title="Logon" width={360} open={showLogon} onOk={logon} onCancel={() => {setShowLogon(false)}}>
             <div className='logon-form'>
                 <Row>
                     <Col span={6} className='logon-label'>User ID</Col>
