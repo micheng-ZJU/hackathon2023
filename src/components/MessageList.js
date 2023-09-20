@@ -17,7 +17,6 @@ const MessageList = ({ messages, addMessage }) => {
     ];
 
     const renderTextWithLinks = (text) => {
-        console.log("Text type:", typeof text);
         const urlRegex = /(https?:\/\/[^\s]+)/g;
         const formattedText = text.replace(/(\.|。)/g, (match) => match + '<br />');
         const textWithLinks = formattedText.replace(urlRegex, '<a href="$&" target="_blank">$&</a>');
