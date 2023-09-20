@@ -153,7 +153,15 @@ for (const name in tmpCnt) {
             angleField: 'count',
             colorField: 'item',
             label: 'count',
-            radius: 120
+            radius: 120,
+            interactions: [
+            {
+                type: 'pie-legend-active',
+            },
+            {
+                type: 'element-active',
+            },
+            ],
         }
     })
 }
