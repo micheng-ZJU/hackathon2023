@@ -2,6 +2,9 @@ import React, { useEffect, useState, useCallback, useRef } from 'react'
 import '../CombinedSection.css';
 import { useSpring, animated, config } from 'react-spring';
 import styles from './executionStyles'
+import './CombinedSection_Alteryx.less'
+import { DeleteOutlined, PlayCircleOutlined, CheckCircleFilled, LoadingOutlined }  from '@ant-design/icons'
+import { Button } from 'antd';
 
 
 function CombinedSection_Alteryx({ updateContent }) {
@@ -74,13 +77,15 @@ function CombinedSection_Alteryx({ updateContent }) {
         // Debug Code
         // Set the execution status to 'executing'
         setExecutionStatus('executing');
-
-        try {
-            setExecutionStatus('success');
-        } catch (error) {
-            console.error('Error executing robot:', error);
-            setExecutionStatus('error');
-        }
+        setTimeout(() => {
+            try {
+                setExecutionStatus('success');
+            } catch (error) {
+                console.error('Error executing robot:', error);
+                setExecutionStatus('error');
+            }
+        }, 2000)
+        
     };
 
     const handleTryRunClick = () => {
@@ -228,7 +233,7 @@ function CombinedSection_Alteryx({ updateContent }) {
 
     const ExecutionPage = () => {
         return (
-            <div style={{ ...styles.container, backgroundColor: 'rgba(0,145,209,0.5)' }}>
+            <div style={{ ...styles.container, backgroundColor: 'rgba(0,145,209,0.2)' }}>
                 {texts.map((text, index) => (
                     <animated.div key={text.key} style={{ ...styles.text, ...fadeText, display: currentTextIndex === index ? 'block' : 'none' }}>
                         {text.content}
@@ -272,16 +277,23 @@ function CombinedSection_Alteryx({ updateContent }) {
                             <li key={index}>
                                 {file.name}
                                 {file.type.startsWith("image/") && < img src={URL.createObjectURL(file)} alt={file.name} style={{ width: '100px', margin: '10px' }} />}
-                                <button onClick={() => onDelete(index)}>Delete</button>
+                                {/* <button onClick={() => onDelete(index)}>Delete</button> */}
+                                <DeleteOutlined onClick={() => onDelete(index)} style={{marginLeft: '6px'}} />
                             </li>
                         ))}
                     </ul>
                 </div>
                 <br />
                 <br />
-                <button style={{ ...styles.button, ...styles[executionStatus] }} onClick={handleExecutionClick}>
-                    {renderButtonContent()}
-                </button>
+                <div className='operation-zone'>
+                    <Button 
+                        type="primary" 
+                        disabled={executionStatus==='executing'} 
+                        icon={executionStatus === 'executing'? <LoadingOutlined />:<PlayCircleOutlined />} 
+                        onClick={handleExecutionClick}
+                    >{executionStatus === 'executing'? 'Running' : 'Execute'}</Button>
+                    <p>{executionStatus === 'success'? <CheckCircleFilled className='checked-icon' />:null}{executionStatus === 'success'? 'Success!':''}</p>
+                </div>
             </div>
         );
     };
