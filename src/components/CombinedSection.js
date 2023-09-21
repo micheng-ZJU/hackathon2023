@@ -100,7 +100,7 @@ function CombinedSection({ updateContent }) {
     const handleExecutionClick = async (optionName) => {
         // const selected Value = selectedoptions [optionName];
         // Debug Code
-        const selected_Value = "C:\\Users\\azureuser\\Documents\\UiPath\\Hackathon_RDA_Deomo\\Main.xaml";
+        const selected_Value = "C:\\Users\\azureuser\\Documents\\UiPath\\Hackathon_RDA_Demo\\Hackathon_RDA_Demo.1.0.1.nupkg";
         console.log("selected_Value", selected_Value);
         // Set the execution status to 'executing'
         setExecutionStatus('executing');
