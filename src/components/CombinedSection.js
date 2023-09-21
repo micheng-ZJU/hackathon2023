@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import '../CombinedSection.css';
 import { useSpring, animated, config } from 'react-spring';
 import styles from './executionStyles'
+import { OperationSection } from './CombinedSection_Alteryx';
 
 function CombinedSection({ updateContent }) {
     const [showOptions, setShowOptions] = useState(false);
@@ -245,19 +246,16 @@ function CombinedSection({ updateContent }) {
     const ExecutionPage = () => {
         return (
             <div style={styles.container}>
+                <div style={styles.textContainer}>
                 {texts.map((text, index) => (
                     <animated.div key={text.key} style={{ ...styles.text, ...fadeText, display: currentTextIndex === index ? 'block' : 'none' }}>
                         {text.content}
                     </animated.div>
-                ))}
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <button style={{ ...styles.button, ...styles[executionStatus] }} onClick={handleExecutionClick}>
+                ))}</div>
+                {/* <button style={{ ...styles.button, ...styles[executionStatus] }} onClick={handleExecutionClick}>
                     {renderButtonContent()}
-                </button>
+                </button> */}
+                <OperationSection {...{executionStatus, handleExecutionClick}} />
             </div>
         );
     };

@@ -3,8 +3,8 @@ import '../CombinedSection.css';
 import { useSpring, animated, config } from 'react-spring';
 import styles from './executionStyles'
 import './CombinedSection_Alteryx.less'
-import { DeleteOutlined, PlayCircleOutlined, CheckCircleFilled, LoadingOutlined }  from '@ant-design/icons'
-import { Button } from 'antd';
+import { DeleteOutlined, PlayCircleOutlined, CheckCircleFilled, CloseCircleFilled, LoadingOutlined }  from '@ant-design/icons'
+import { Button, Upload } from 'antd';
 
 
 function CombinedSection_Alteryx({ updateContent }) {
@@ -77,15 +77,18 @@ function CombinedSection_Alteryx({ updateContent }) {
         // Debug Code
         // Set the execution status to 'executing'
         setExecutionStatus('executing');
-        setTimeout(() => {
-            try {
-                setExecutionStatus('success');
-            } catch (error) {
-                console.error('Error executing robot:', error);
-                setExecutionStatus('error');
-            }
-        }, 2000)
-        
+        // setTimeout(() => {
+        //     try {
+        //         setExecutionStatus('success');
+        //     } catch (error) {
+        //         console.error('Error executing robot:', error);
+        //         setExecutionStatus('error');
+        //     }
+        // }, 2000)
+        fetch('http://127.0.0.1:5000/readData').then(res => {
+            console.log('readData response: ', res)
+            setExecutionStatus('success')
+        })
     };
 
     const handleTryRunClick = () => {
@@ -234,16 +237,13 @@ function CombinedSection_Alteryx({ updateContent }) {
     const ExecutionPage = () => {
         return (
             <div style={{ ...styles.container, backgroundColor: 'rgba(0,145,209,0.2)' }}>
-                {texts.map((text, index) => (
-                    <animated.div key={text.key} style={{ ...styles.text, ...fadeText, display: currentTextIndex === index ? 'block' : 'none' }}>
-                        {text.content}
-                    </animated.div>
-                ))}
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
+                <div style={styles.textContainer}>
+                    {texts.map((text, index) => (
+                        <animated.div key={text.key} style={{ ...styles.text, ...fadeText, display: currentTextIndex === index ? 'block' : 'none' }}>
+                            {text.content}
+                        </animated.div>
+                    ))}
+                </div>
                 <div>
                     <div
                         style={{
@@ -285,15 +285,7 @@ function CombinedSection_Alteryx({ updateContent }) {
                 </div>
                 <br />
                 <br />
-                <div className='operation-zone'>
-                    <Button 
-                        type="primary" 
-                        disabled={executionStatus==='executing'} 
-                        icon={executionStatus === 'executing'? <LoadingOutlined />:<PlayCircleOutlined />} 
-                        onClick={handleExecutionClick}
-                    >{executionStatus === 'executing'? 'Running' : 'Execute'}</Button>
-                    <p>{executionStatus === 'success'? <CheckCircleFilled className='checked-icon' />:null}{executionStatus === 'success'? 'Success!':''}</p>
-                </div>
+                <OperationSection {...{executionStatus, handleExecutionClick}} />
             </div>
         );
     };
@@ -328,3 +320,20 @@ function CombinedSection_Alteryx({ updateContent }) {
     );
 }
 export default CombinedSection_Alteryx;
+export const OperationSection = (props) => {
+    const { handleExecutionClick, executionStatus } = props
+    return (
+        <div className='operation-zone'>
+            <Button 
+                size='large'
+                type="primary" 
+                disabled={executionStatus==='executing'} 
+                icon={executionStatus === 'executing'? <LoadingOutlined />:<PlayCircleOutlined />} 
+                onClick={handleExecutionClick}
+            >{executionStatus === 'executing'? 'Running' : 'Execute'}</Button>
+            <p>
+                {executionStatus === 'success'? <CheckCircleFilled className='check-icon' />:executionStatus === 'error'?<CloseCircleFilled className='close-icon' />:null}
+                {executionStatus === 'success'? 'Success!': executionStatus === 'error' ? 'Failed!':''}</p>
+        </div>
+    )
+}

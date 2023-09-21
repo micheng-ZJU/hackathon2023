@@ -6,7 +6,7 @@ const styles = {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'rgba(250,70,22,0.5)',
+        backgroundColor: 'rgba(250,70,22,0.3)',
 
     },
     button: {
@@ -34,6 +34,9 @@ const styles = {
         height: '48px',
         color: '#000',
         fontFamily: 'Calibri, sans-serif'
+    },
+    textContainer: {
+        marginBottom: '20px'
     }
 }
 

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import '../CombinedSection.css';
 import { useSpring, animated, config } from 'react-spring';
 import styles from './executionStyles'
+import { OperationSection } from './CombinedSection_Alteryx';
 
 function CombinedSection_Python({ updateContent }) {
     const [showOptions, setShowOptions] = useState(false);
@@ -177,19 +178,17 @@ function CombinedSection_Python({ updateContent }) {
     const ExecutionPage = () => {
         return (
             <div style={{ ...styles.container, backgroundColor: 'rgba(255, 222, 86, 0.7)' }}>
-                {texts.map((text, index) => (
-                    <animated.div key={text.key} style={{ ...styles.text, ...fadeText, display: currentTextIndex === index ? 'block' : 'none' }}>
-                        {text.content}
-                    </animated.div>
-                ))}
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <button style={{ ...styles.button, ...styles[executionStatus] }} onClick={handleExecutionClick}>
+                <div style={styles.textContainer}>
+                    {texts.map((text, index) => (
+                        <animated.div key={text.key} style={{ ...styles.text, ...fadeText, display: currentTextIndex === index ? 'block' : 'none' }}>
+                            {text.content}
+                        </animated.div>
+                    ))}
+                </div>
+                {/* <button style={{ ...styles.button, ...styles[executionStatus] }} onClick={handleExecutionClick}>
                     {renderButtonContent()}
-                </button>
+                </button> */}
+                <OperationSection handleExecutionClick={handleExecutionClick} executionStatus={executionStatus} />
             </div>
         );
     };
