@@ -161,19 +161,18 @@ function CombinedSection_Alteryx({ updateContent }) {
         const fileList = info.fileList;
         const formData = new FormData();
         fileList.forEach(file => {
-            formData.append('name', file.originFileObj);
+            formData.append(file.name, file.originFileObj);
         })
         // Upload to server
-        fetch('http://127.0.0.1:5000/execute-robot', {
-            method: 'post',
+        fetch('http://127.0.0.1:5000/readData', {
+            method: 'POST',
             headers: {
                 'Content-Type': 'multipart/form-data'
             },
             data: formData
         }).then(res => {
             console.log('readData response: ', res)
-            formData.append('test.xlsx', )
-            setExecutionStatus('success')
+            // setExecutionStatus('success')
         })
     }
 

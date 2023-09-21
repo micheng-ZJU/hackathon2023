@@ -116,14 +116,6 @@ const lineConfig = {
     },
 }
 
-// const pieData = [
-//     { item: 'Case 1', count: 40, percent: 0.4 },
-//     { item: 'Case 2', count: 221, percent: 0.4 },
-//     { item: 'Case 3', count: 17, percent: 0.17 },
-//     { item: 'Case 4', count: 13, percent: 0.13 },
-//     { item: 'Case 5', count: 9, percent: 0.09 },
-// ];
-
 
 const tmpCnt = {
     'LOC': {},
@@ -175,6 +167,7 @@ const WorkflowPage = (props) => {
     const [showLogon, setShowLogon] = useState(false)
     const [showReport, setShowReport] = useState(false)
     const [showEdit, setShowEdit] = useState(false)
+    const [username, setUsername] = useState('')
 
     useEffect(() => {
         //发送请求到 get＿data
@@ -211,8 +204,15 @@ const WorkflowPage = (props) => {
         }, 2000)
     }
     const logon = () => {
-        setCurrent(2)
-        setShowLogon(false)
+        if (username === 'admin') {
+            setCurrent(2)
+            setShowLogon(false)
+        } else {
+            Modal.error({
+                title: 'Error',
+                content: 'User Not Authorized!'
+            })
+        }
     }
 
     const generateChart = () => {
@@ -287,11 +287,11 @@ const WorkflowPage = (props) => {
             <div className='logon-form'>
                 <Row>
                     <Col span={6} className='logon-label'>User ID</Col>
-                    <Col span={15}><Input /></Col>
+                    <Col span={15}><Input id="username" value={username} onChange={(e) => {setUsername(e.target.value)}} /></Col>
                 </Row>
                 <Row>
                     <Col span={6} className='logon-label'>Password</Col>
-                    <Col span={15}><Input type='password' /></Col>
+                    <Col span={15}><Input type='password' onPressEnter={logon} /></Col>
                 </Row>
             </div>
         </Modal>
