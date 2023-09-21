@@ -158,18 +158,20 @@ function CombinedSection_Alteryx({ updateContent }) {
     }
 
     const onDraggerChange = (info) => {
+        if (!info.file.xhr) return;
         const fileList = info.fileList;
         const formData = new FormData();
         fileList.forEach(file => {
-            formData.append(file.name, file.originFileObj);
+            formData.append('file', file.originFileObj);
+            formData.append('name', file.name)
         })
         // Upload to server
         fetch('http://127.0.0.1:5000/readData', {
             method: 'POST',
             headers: {
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'application/form-data'
             },
-            data: formData
+            body: formData
         }).then(res => {
             console.log('readData response: ', res)
             // setExecutionStatus('success')
@@ -301,7 +303,7 @@ function CombinedSection_Alteryx({ updateContent }) {
                             </li>
                         ))}</ul> 
                 </div>*/}
-                <Dragger onChange={onDraggerChange} multiple={true} className='dragger'>
+                <Dragger onChange ={onDraggerChange} multiple={true} className='dragger'>
                     <p>Drag And Drop Files Here</p>
                     <p>Or Click To Select</p>
                 </Dragger>
