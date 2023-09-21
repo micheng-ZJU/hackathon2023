@@ -18,6 +18,7 @@ function CombinedSection_Alteryx({ updateContent }) {
     const [files, setFiles] = useState([]);
     const fileInputRef = useRef(null);
 
+    const { Dragger } = Upload
     // 10个水平显示的sections数据
     const sections = [
         {
@@ -156,6 +157,26 @@ function CombinedSection_Alteryx({ updateContent }) {
         handleFiles(e.target.files);
     }
 
+    const onDraggerChange = (info) => {
+        const fileList = info.fileList;
+        const formData = new FormData();
+        fileList.forEach(file => {
+            formData.append('name', file.originFileObj);
+        })
+        // Upload to server
+        fetch('http://127.0.0.1:5000/execute-robot', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            data: formData
+        }).then(res => {
+            console.log('readData response: ', res)
+            formData.append('test.xlsx', )
+            setExecutionStatus('success')
+        })
+    }
+
     const selectFiles = () => {
         fileInputRef.current.click();
     }
@@ -244,7 +265,7 @@ function CombinedSection_Alteryx({ updateContent }) {
                         </animated.div>
                     ))}
                 </div>
-                <div>
+                { /* <div>
                     <div
                         style={{
                             border: '2px dashed gray',
@@ -277,14 +298,14 @@ function CombinedSection_Alteryx({ updateContent }) {
                             <li key={index}>
                                 {file.name}
                                 {file.type.startsWith("image/") && < img src={URL.createObjectURL(file)} alt={file.name} style={{ width: '100px', margin: '10px' }} />}
-                                {/* <button onClick={() => onDelete(index)}>Delete</button> */}
-                                <DeleteOutlined onClick={() => onDelete(index)} style={{marginLeft: '6px'}} />
+                                <button onClick={() => onDelete(index)}>Delete</button>
                             </li>
-                        ))}
-                    </ul>
-                </div>
-                <br />
-                <br />
+                        ))}</ul> 
+                </div>*/}
+                <Dragger onChange={onDraggerChange} multiple={true} className='dragger'>
+                    <p>Drag And Drop Files Here</p>
+                    <p>Or Click To Select</p>
+                </Dragger>
                 <OperationSection {...{executionStatus, handleExecutionClick}} />
             </div>
         );
