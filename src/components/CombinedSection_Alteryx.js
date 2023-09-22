@@ -101,10 +101,17 @@ function CombinedSection_Alteryx({ updateContent }) {
                 setExecutionStatus('success')
                 const rr = []
                 for (let k in res.data) {
-                    const itemList = JSON.parse(res.data[k])
+                    let value = res.data[k]
+                    if (typeof value === 'string') {
+                        value = JSON.parse(value)
+                    }
+                    // const itemList = JSON.parse(res.data[k])
                     rr.push({
                         title: k,
-                        children: itemList.map(item => {
+                        children: value.map((item, idx) => {
+                            if (typeof item === 'string') {
+                                return {title: item};
+                            }
                             const cl = [];
                             for (const t in item) {
                                 cl.push({
@@ -112,7 +119,7 @@ function CombinedSection_Alteryx({ updateContent }) {
                                 })
                             }
                             return {
-                                title: item.Fund,
+                                title: idx,
                                 children: cl
                             }
                         })
@@ -120,6 +127,8 @@ function CombinedSection_Alteryx({ updateContent }) {
                 }
                 console.log(rr)
                 responseData.current = rr
+            } else {
+                setExecutionStatus('error');
             }
         })
     };
@@ -230,7 +239,9 @@ function CombinedSection_Alteryx({ updateContent }) {
                     {executionStatus === 'success' ? <Button onClick={() => { setShowModal(true) }} >Check Result</Button>:null}
                 </div>
                 <Modal open={showModal} onOk={()=>{setShowModal(false)}} onCancel={() => {setShowModal(false)}}>
-                    <Tree className='json-data' defaultExpandAll={true} treeData={responseData.current} />
+                    <div className='json-container'>
+                        <Tree  defaultExpandAll={true} treeData={responseData.current} />
+                    </div>
                 </Modal>
             </div>
         );
