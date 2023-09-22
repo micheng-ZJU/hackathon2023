@@ -4,7 +4,7 @@ import { useSpring, animated, config } from 'react-spring';
 import styles from './executionStyles'
 import './CombinedSection_Alteryx.less'
 import { DeleteOutlined, PlayCircleOutlined, CheckCircleFilled, CloseCircleFilled, LoadingOutlined }  from '@ant-design/icons'
-import { Button, Upload } from 'antd';
+import { Button, Modal, Tree, Upload } from 'antd';
 
 
 function CombinedSection_Alteryx({ updateContent }) {
@@ -17,6 +17,9 @@ function CombinedSection_Alteryx({ updateContent }) {
     const [dragging, setDragging] = useState(false);
     const [files, setFiles] = useState([]);
     const fileInputRef = useRef(null);
+    const fileList = useRef([]);
+    const [showModal, setShowModal] = useState(false);
+    const responseData = useRef(null);
 
     const { Dragger } = Upload
     // 10个水平显示的sections数据
@@ -74,9 +77,6 @@ function CombinedSection_Alteryx({ updateContent }) {
     ];
 
     const handleExecutionClick = async (optionName) => {
-        // const selected_Value = selectedOptions [optionName];
-        // Debug Code
-        // Set the execution status to 'executing'
         setExecutionStatus('executing');
         // setTimeout(() => {
         //     try {
@@ -86,9 +86,41 @@ function CombinedSection_Alteryx({ updateContent }) {
         //         setExecutionStatus('error');
         //     }
         // }, 2000)
-        fetch('http://127.0.0.1:5000/readData').then(res => {
-            console.log('readData response: ', res)
-            setExecutionStatus('success')
+        const fList = fileList.current;
+        const formData = new FormData();
+        fList.forEach(file => {
+            formData.append('file', file.originFileObj);
+            formData.append('name', file.name)
+        })
+        // Upload to server
+        fetch('http://127.0.0.1:5000/readData', {
+            method: 'POST',
+            body: formData
+        }).then(res => res.json()).then(res => {
+            if (res.success === 'true') {
+                setExecutionStatus('success')
+                const rr = []
+                for (let k in res.data) {
+                    const itemList = JSON.parse(res.data[k])
+                    rr.push({
+                        title: k,
+                        children: itemList.map(item => {
+                            const cl = [];
+                            for (const t in item) {
+                                cl.push({
+                                    title: `${t}: ${item[t]}`
+                                })
+                            }
+                            return {
+                                title: item.Fund,
+                                children: cl
+                            }
+                        })
+                    })
+                }
+                console.log(rr)
+                responseData.current = rr
+            }
         })
     };
 
@@ -114,72 +146,9 @@ function CombinedSection_Alteryx({ updateContent }) {
         updateContent(newContent);
     };
 
-    const getStatusColor = () => {
-        switch (executionStatus) {
-            case 'executing':
-                return '#f2b705'; // Light yellow
-            case 'success':
-                return '#3dbb3d'; // Light green
-            case 'error':
-                return '#e74c3c'; // Light red
-            default:
-                return '#007bff';
-        }
-    };
-
-    const onDragOver = useCallback((e) => {
-        e.preventDefault();
-        if (!dragging) {
-            setDragging(true);
-        }
-    }, [dragging]);
-
-    const onDragLeave = useCallback(() => {
-        setDragging(false);
-    }, []);
-
-    const onDrop = useCallback((e) => {
-        e.preventDefault();
-        setDragging(false);
-        let uploadedFiles = e.dataTransfer.files;
-        handleFiles(uploadedFiles);
-    }, []);
-
-    const handleFiles = (uploadedFiles) => {
-        setFiles(prevFiles => [...prevFiles, ...uploadedFiles]);
-    }
-
-    const onDelete = useCallback((index) => {
-        setFiles(prevFiles => prevFiles.filter((_, i) => i !== index));
-    }, []);
-
-    const onFileInputChange = (e) => {
-        handleFiles(e.target.files);
-    }
-
     const onDraggerChange = (info) => {
         if (!info.file.xhr) return;
-        const fileList = info.fileList;
-        const formData = new FormData();
-        fileList.forEach(file => {
-            formData.append('file', file.originFileObj);
-            formData.append('name', file.name)
-        })
-        // Upload to server
-        fetch('http://127.0.0.1:5000/readData', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/form-data'
-            },
-            body: formData
-        }).then(res => {
-            console.log('readData response: ', res)
-            // setExecutionStatus('success')
-        })
-    }
-
-    const selectFiles = () => {
-        fileInputRef.current.click();
+        fileList.current = info.fileList;
     }
 
     const renderProcessSections = () => {
@@ -217,21 +186,6 @@ function CombinedSection_Alteryx({ updateContent }) {
         )
     }
 
-    const renderButtonContent = () => {
-        switch (executionStatus) {
-            case 'idle':
-                return 'Execute';
-            case 'execution':
-                return 'Executing...';
-            case 'success':
-                return 'Execution successful!';
-            case 'error':
-                return 'Error executing task.';
-            default:
-                return 'Execute';
-        }
-    };
-
     const fadeText = useSpring({
         opacity: currentTextIndex >= 0 ? 1 : 0,
         from: { opacity: 0 },
@@ -250,6 +204,7 @@ function CombinedSection_Alteryx({ updateContent }) {
         return () => clearInterval(interval);
     }, []);
 
+
     const texts = [
         { content: 'After verification, your account is authorized to execute this process. You may click the Execute button to initiate the process.', key: "text1" },
         { content: 'Do not switch or close the page during the execution process.', key: 'text2' },
@@ -266,48 +221,17 @@ function CombinedSection_Alteryx({ updateContent }) {
                         </animated.div>
                     ))}
                 </div>
-                { /* <div>
-                    <div
-                        style={{
-                            border: '2px dashed gray',
-                            height: '200px',
-                            padding: '10px',
-                            color: dragging ? 'green' : 'black',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            flexDirection: 'column',
-                        }}
-                        onDragOver={onDragOver}
-                        onDragLeave={onDragLeave}
-                        onDrop={onDrop}
-                        onClick={selectFiles}
-                    >
-
-                        {dragging ? 'Release To Upload File' : 'Drag And Drop Files Here Or Click To Select'}
-                        <input
-                            ref={fileInputRef}
-                            type="file"
-                            multiple
-                            style={{ display: 'none' }}
-                            onChange={onFileInputChange}
-                        />
-                    </div>
-
-                    <ul>
-                        {Array.from(files).map((file, index) => (
-                            <li key={index}>
-                                {file.name}
-                                {file.type.startsWith("image/") && < img src={URL.createObjectURL(file)} alt={file.name} style={{ width: '100px', margin: '10px' }} />}
-                                <button onClick={() => onDelete(index)}>Delete</button>
-                            </li>
-                        ))}</ul> 
-                </div>*/}
                 <Dragger onChange ={onDraggerChange} multiple={true} className='dragger'>
                     <p>Drag And Drop Files Here</p>
                     <p>Or Click To Select</p>
                 </Dragger>
                 <OperationSection {...{executionStatus, handleExecutionClick}} />
+                <div>
+                    {executionStatus === 'success' ? <Button onClick={() => { setShowModal(true) }} >Check Result</Button>:null}
+                </div>
+                <Modal open={showModal} onOk={()=>{setShowModal(false)}} onCancel={() => {setShowModal(false)}}>
+                    <Tree className='json-data' defaultExpandAll={true} treeData={responseData.current} />
+                </Modal>
             </div>
         );
     };
