@@ -33,7 +33,7 @@ function App() {
         <Router>
             <div className="App">
                 <header className="header">
-                    <h1>DolphBot Waves</h1>
+                    <h1>WAVES</h1>
                 </header>
                 <div className="content">
                     <div className="section left-section">
